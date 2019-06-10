@@ -9,15 +9,66 @@ using UnityEngine;
 public class TileMap : MonoBehaviour {
 
     //Variabler
-    public int size_x = 100;
+    public int size_x = 50;
     public int size_z = 50;
     public float tileSize = 1.0f;
+
+    public Texture2D terrainTiles;
+    public int tileResolution;
     
     // Use this for initialization
 	void Start ()
     {
         BuildMesh();
 	}
+
+    Color[][] ChopUpTiles()
+    {
+        int numTilesPerRow = terrainTiles.width / tileResolution;
+        int numRows = terrainTiles.height / tileResolution;
+
+        Color[][] tiles = new Color[numTilesPerRow * numRows][];
+
+        for (int y = 0; y < numRows; y++)
+        {
+            for (int x = 0; x < numTilesPerRow; x++)
+            {
+                tiles[y * numTilesPerRow + x] = terrainTiles.GetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution);
+            }
+        }
+        return tiles;
+    }
+
+    void BuildTexture()
+    {
+        int texWidth = size_x * tileResolution;
+        int texHeight = size_z * tileResolution;
+        Texture2D texture = new Texture2D(texWidth, texHeight);
+
+        Color[][] tiles = ChopUpTiles();
+
+        for (int y = 0; y < size_z; y++)
+        {
+            for (int x = 0; x < size_x; x++)
+            {
+                Color[] p = tiles[Random.Range(0, 4)];
+                texture.SetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution, p);
+                /*dette kan være brugbart når der skal benyttes standart grundere
+                Color c = new Color( Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                texture.SetPixel(x, y, c);*/
+            }
+        }
+        //For blurred texture brug Bilinear istedet for Point
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.Apply();
+        MeshRenderer mesh_Renderer = GetComponent<MeshRenderer>();
+        //sharedMaterial i editor, og material i gameplay
+        mesh_Renderer.sharedMaterials[0].mainTexture = texture;
+
+        Debug.Log("Done TEXTURE!");
+    }
+
 
     public void BuildMesh()
     {
@@ -42,9 +93,9 @@ public class TileMap : MonoBehaviour {
             for (x = 0; x < vsize_x; x++)
             {
                 //Random.Range(-1f, 1f)
-                vertices[z * vsize_x + x] = new Vector3(x * tileSize, 0, z * tileSize);
+                vertices[z * vsize_x + x] = new Vector3(x * tileSize, Random.Range(-1f, 1f), z * tileSize);
                 normals[z * vsize_x + x] = Vector3.up;
-                uv[z * vsize_x + x] = new Vector2( (float)x / vsize_x, (float)z / vsize_z);
+                uv[z * vsize_x + x] = new Vector2( (float)x / size_x, (float)z / size_z);
             }
         }
 
@@ -81,5 +132,7 @@ public class TileMap : MonoBehaviour {
 
         mesh_filter.mesh = mesh;
         mesh_collider.sharedMesh = mesh;
+
+        BuildTexture();
     }
 }
