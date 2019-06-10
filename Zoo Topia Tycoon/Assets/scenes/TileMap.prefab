@@ -19,9 +19,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4464335206178344}
-  - component: {fileID: 114773978510118932}
   - component: {fileID: 33763535845399536}
   - component: {fileID: 23468770659014692}
+  - component: {fileID: 64485516208806194}
+  - component: {fileID: 114384082169877072}
+  - component: {fileID: 114733582148456898}
   m_Layer: 0
   m_Name: TileMap
   m_TagString: Untagged
@@ -36,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1407102304821522}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 46.41084, y: 0, z: 19.125385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,7 +85,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1407102304821522}
   m_Mesh: {fileID: 0}
---- !u!114 &114773978510118932
+--- !u!64 &64485516208806194
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1407102304821522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
+--- !u!114 &114384082169877072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1407102304821522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e93aa7c6324db4ca728c70bab7b62f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionCube: {fileID: 0}
+--- !u!114 &114733582148456898
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -94,3 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec49bc8406230f499d3307b37256ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size_x: 100
+  size_z: 50
+  tileSize: 5
